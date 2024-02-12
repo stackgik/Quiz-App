@@ -9,23 +9,12 @@ import ScoreTracker from './Components/ScoreTracker';
 import Questions from './Components/Questions';
 import Loader from './Components/Loader';
 import CompletionScreen from './Components/CompletionScreen';
+import ErrorMsg from './Components/ErrorMsg';
 
 // Literal type
 type SEC_PER_QUES = 60 | 1;
 
 const quesSec: SEC_PER_QUES = 1;
-
-interface AppState {
-  quizObj: QuizData[];
-  status: string;
-  index: number;
-  currentQuestion: number;
-  circles: number;
-  answer: string | null;
-  wrongAnswer: number;
-  rightAnswer: number;
-  remainingTime: number;
-}
 
 // Action interface cannot be generic, especially since different actions expect different payload types. It's better to use a union of specific action types, where each action type has a payload that is appropriately typed.
 export type Action =
@@ -35,6 +24,7 @@ export type Action =
   | { type: 'updateTime' }
   | { type: 'startQuiz' }
   | { type: 'next' }
+  | { type: 'error'; payload: string }
   | { type: 'optionChosen'; payload: string }
   | { type: 'finished' }
   | { type: 'restart' };
@@ -60,6 +50,20 @@ interface IData {
   type: string;
 }
 
+interface AppState {
+  quizObj: QuizData[];
+  status: string;
+  index: number;
+  currentQuestion: number;
+  circles: number;
+  answer: string | null;
+  wrongAnswer: number;
+  rightAnswer: number;
+  remainingTime: number;
+  answeredQuestion: number;
+  errorMsg: string | null;
+}
+
 const initialState: AppState = {
   quizObj: [],
   status: 'loading',
@@ -70,6 +74,8 @@ const initialState: AppState = {
   wrongAnswer: 0,
   rightAnswer: 0,
   remainingTime: 0,
+  answeredQuestion: 0,
+  errorMsg: null,
 };
 
 // The reducer function that updates state
@@ -77,6 +83,9 @@ function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'loading':
       return { ...state, status: 'loading' };
+
+    case 'error':
+      return { ...state, status: 'error', errorMsg: action.payload };
 
     case 'dataReceived':
       return {
@@ -115,6 +124,7 @@ function reducer(state: AppState, action: Action): AppState {
             ? state.rightAnswer + 1
             : state.rightAnswer,
         answer: null,
+        answeredQuestion: state.answeredQuestion + 1,
       };
 
     case 'optionChosen':
@@ -159,6 +169,8 @@ function App() {
       wrongAnswer,
       rightAnswer,
       remainingTime,
+      answeredQuestion,
+      errorMsg,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -186,8 +198,9 @@ function App() {
 
         dispatch({ type: 'dataReceived', payload: newData });
         dispatch({ type: 'expectedTime', payload: newData.length });
-      } catch (err) {
-        console.error(err);
+      } catch (err: unknown) {
+        err instanceof Error &&
+          dispatch({ type: 'error', payload: err.message });
       }
     }
     fetchQuestions();
@@ -198,6 +211,7 @@ function App() {
       <Header />
       <Main>
         {status === 'loading' && <Loader />}
+        {status === 'error' && <ErrorMsg message={errorMsg} />}
         {status === 'ready' && <StartScreen dispatch={dispatch} />}
         {status === 'active' && (
           <>
@@ -218,6 +232,7 @@ function App() {
             rightAnswer={rightAnswer}
             wrongAnswer={wrongAnswer}
             quest={quizObj.length}
+            completedQuestions={answeredQuestion}
           />
         )}
       </Main>

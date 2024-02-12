@@ -6,8 +6,9 @@ import { Action } from '../App';
 interface ICompletionScreenProps {
   dispatch: Dispatch<Action>;
   quest: number;
-  rightAnswer: string | number;
-  wrongAnswer: string | number;
+  rightAnswer: number;
+  wrongAnswer: number;
+  completedQuestions: number;
 }
 
 const CompletionScreen = ({
@@ -15,6 +16,7 @@ const CompletionScreen = ({
   quest,
   rightAnswer,
   wrongAnswer,
+  completedQuestions,
 }: ICompletionScreenProps) => {
   const happy = (
     <svg
@@ -60,7 +62,7 @@ const CompletionScreen = ({
         <div className="user-quiz-stats">
           <div className="box">
             <span className="ques top-box">
-              {ques} {quest}
+              {ques} {`${completedQuestions}/${quest}`}
             </span>
             <span className="content">Total Questions</span>
           </div>
@@ -72,7 +74,11 @@ const CompletionScreen = ({
           </div>
           <div className="box">
             <span className="wrong top-box wrong-icon">
-              {wrong} {wrongAnswer}
+              {wrong}
+              {wrongAnswer + rightAnswer === quest
+                ? wrongAnswer
+                : quest - rightAnswer}
+              {/* {completedQuestions === 0 ? quest : wrongAnswer} */}
             </span>
             <span className="content">Wrong</span>
           </div>
