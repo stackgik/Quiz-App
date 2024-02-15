@@ -257,7 +257,7 @@ button {
     &:hover {
       transform: translateX(20px);
 
-      @media screen and (max-width: 380px) {
+      @media screen and (max-width: 400px) {
         transform: translateX(5px);
       }
     }
