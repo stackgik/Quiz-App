@@ -10,7 +10,7 @@ const StartScreen = ({ dispatch }: IStartScreenProps) => {
   return (
     <>
       <p className="quiz-instructions">
-        This quiz contains <strong>20 questions</strong>. You should ensure to
+        This quiz contains <strong>10 questions</strong>. You should ensure to
         select an option, as not choosing one automatically marks the question
         worng. You must also know that once the 'next question' button is
         clicked, you can not go back to the previous question. Goodluck...

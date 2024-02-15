@@ -14,7 +14,7 @@ import ErrorMsg from './Components/ErrorMsg';
 // Literal type
 type SEC_PER_QUES = 60 | 1;
 
-const quesSec: SEC_PER_QUES = 1;
+const quesSec: SEC_PER_QUES = 60;
 
 // Action interface cannot be generic, especially since different actions expect different payload types. It's better to use a union of specific action types, where each action type has a payload that is appropriately typed.
 export type Action =
@@ -142,6 +142,7 @@ function reducer(state: AppState, action: Action): AppState {
           state.answer === state.quizObj[state.index].correctAnswer
             ? state.rightAnswer++
             : state.rightAnswer,
+        answeredQuestion: state.answeredQuestion + 1,
       };
 
     case 'restart':

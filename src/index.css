@@ -22,6 +22,10 @@
 
 html {
   font-size: 62.5%;
+
+  @media screen and (max-width: 630px) {
+    font-size: 50%;
+  }
 }
 
 #root {
@@ -50,10 +54,16 @@ button {
   display: flex;
   flex-flow: column;
   gap: 2rem;
+  padding: 2rem;
 }
+
 .quiz-title {
   font-size: 5rem;
   text-align: center;
+
+  @media screen and (max-width: 380px) {
+    font-size: 4rem;
+  }
 }
 
 .main {
@@ -182,6 +192,10 @@ button {
   &.btn--start-quiz {
     align-self: flex-end;
   }
+
+  @media screen and (max-width: 630px) {
+    padding: 1rem 2rem;
+  }
 }
 
 .score-tracker {
@@ -229,6 +243,7 @@ button {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1.5rem 2.5rem;
     border-radius: 3rem;
     border: 1px solid var(--dark-grey-2);
@@ -241,6 +256,14 @@ button {
 
     &:hover {
       transform: translateX(20px);
+
+      @media screen and (max-width: 380px) {
+        transform: translateX(5px);
+      }
+    }
+
+    @media screen and (max-width: 380px) {
+      padding: 1.2rem 2rem;
     }
   }
 

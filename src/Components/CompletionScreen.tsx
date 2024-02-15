@@ -64,7 +64,7 @@ const CompletionScreen = ({
             <span className="ques top-box">
               {ques} {`${completedQuestions}/${quest}`}
             </span>
-            <span className="content">Total Questions</span>
+            <span className="content">Questions</span>
           </div>
           <div className="box">
             <span className="right top-box right-icon">
