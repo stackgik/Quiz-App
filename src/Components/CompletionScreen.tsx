@@ -1,23 +1,12 @@
 import Button from './Button';
 import { wrong, right } from '../ScoreIcon';
-import { Dispatch } from 'react';
-import { Action } from '../App';
+import { useQuiz } from '../contexts/QuizContext';
 
-interface ICompletionScreenProps {
-  dispatch: Dispatch<Action>;
-  quest: number;
-  rightAnswer: number;
-  wrongAnswer: number;
-  completedQuestions: number;
-}
+const CompletionScreen = () => {
+  const { dispatch, quizObj, rightAnswer, wrongAnswer, answeredQuestion } =
+    useQuiz();
 
-const CompletionScreen = ({
-  dispatch,
-  quest,
-  rightAnswer,
-  wrongAnswer,
-  completedQuestions,
-}: ICompletionScreenProps) => {
+  const quest = quizObj.length;
   const happy = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +51,7 @@ const CompletionScreen = ({
         <div className="user-quiz-stats">
           <div className="box">
             <span className="ques top-box">
-              {ques} {`${completedQuestions}/${quest}`}
+              {ques} {`${answeredQuestion}/${quest}`}
             </span>
             <span className="content">Questions</span>
           </div>

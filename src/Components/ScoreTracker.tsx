@@ -1,9 +1,7 @@
-interface IScoreTracker {
-  rightAnswer: number;
-  wrongAnswer: number;
-}
+import { useQuiz } from '../contexts/QuizContext';
 
-function ScoreTracker({ rightAnswer, wrongAnswer }: IScoreTracker) {
+function ScoreTracker() {
+  const { rightAnswer, wrongAnswer } = useQuiz();
   const wrong = (
     <svg
       xmlns="http://www.w3.org/2000/svg"

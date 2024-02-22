@@ -1,28 +1,9 @@
 import { right, wrong } from '../ScoreIcon';
-import { Dispatch } from 'react';
-import { Action } from '../App';
+import { useQuiz } from '../contexts/QuizContext';
 
-interface QuizData {
-  id: string;
-  question: string;
-  correctAnswer: string;
-  options: string[];
-}
-
-interface IQuizOptionProps {
-  option: string;
-  // This line means that the dispatch property in IQuizOptionProps interface is a function that takes an action object as its argument. The action object is expected to have two properties:
-  dispatch: Dispatch<Action>;
-  question: QuizData;
-  answer: string | null;
-}
-
-const QuizOption = ({
-  option,
-  dispatch,
-  question,
-  answer,
-}: IQuizOptionProps) => {
+const QuizOption = ({ option }: string) => {
+  const { dispatch, answer, quizObj, index } = useQuiz();
+  const question = quizObj[index];
   const hasAnswered = answer !== null;
 
   return (

@@ -1,12 +1,14 @@
 import Button from './Button';
-import { Dispatch } from 'react';
-import { Action } from '../App';
+import { useQuiz } from '../contexts/QuizContext';
+// import { Dispatch } from 'react';
+// import { Action } from '../App';
 
-interface IStartScreenProps {
-  dispatch: Dispatch<Action>;
-}
+// interface IStartScreenProps {
+//   dispatch: Dispatch<Action>;
+// }
 
-const StartScreen = ({ dispatch }: IStartScreenProps) => {
+const StartScreen = () => {
+  const { dispatch } = useQuiz();
   return (
     <>
       <p className="quiz-instructions">

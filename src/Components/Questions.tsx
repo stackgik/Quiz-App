@@ -1,25 +1,16 @@
 import Button from './Button';
 import Timer from './Timer';
 import QuizOption from './QuizOption';
-import { QuizData } from '../App';
-import { Dispatch } from 'react';
-import { Action } from '../App';
+import { useQuiz } from '../contexts/QuizContext';
+import { useEffect, useState } from 'react';
 
-interface IQuestionsProps {
-  question: QuizData;
-  dispatch: Dispatch<Action>;
-  answer: string | null;
-  quizHasEnded: boolean;
-  time: number;
-}
+import { shuffleArray } from '../hooks/shuffleArray';
 
-const Questions = ({
-  question,
-  dispatch,
-  answer,
-  quizHasEnded,
-  time,
-}: IQuestionsProps) => {
+const Questions = () => {
+  const [shuffledOptions, setShuffledOptions] = useState([]);
+  const { quizObj, dispatch, quizHasEnded, index } = useQuiz();
+  const question = quizObj[index];
+
   const nextArr = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,24 +24,25 @@ const Questions = ({
       />
     </svg>
   );
+
+  useEffect(() => {
+    if (question && question.options) {
+      setShuffledOptions(shuffleArray([...question.options]));
+    }
+  }, [index, question]);
+
   return (
     <div className="quiz-container">
       <h3 className="quiz-question">{question.question}</h3>
 
       <div className="quiz-options">
-        {question.options.map((option) => (
-          <QuizOption
-            key={option}
-            option={option}
-            dispatch={dispatch}
-            question={question}
-            answer={answer}
-          />
+        {shuffledOptions.map((option) => (
+          <QuizOption key={option} option={option} />
         ))}
       </div>
 
       <div className="buttons">
-        <Timer time={time} dispatch={dispatch} />
+        <Timer />
         {!quizHasEnded ? (
           <Button classy={'btn'} onHit={() => dispatch({ type: 'next' })}>
             Next question {nextArr}

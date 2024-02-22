@@ -1,14 +1,11 @@
 import { useEffect } from 'react';
 import Button from './Button';
+import { useQuiz } from '../contexts/QuizContext';
 
-interface ITimerProps {
-  time: number;
-  dispatch(action: { type: string }): void;
-}
-
-function Timer({ time, dispatch }: ITimerProps) {
-  const min = Math.floor(time / 60);
-  const secs = time % 60;
+function Timer() {
+  const { remainingTime, dispatch } = useQuiz();
+  const min = Math.floor(remainingTime / 60);
+  const secs = remainingTime % 60;
 
   useEffect(() => {
     const id = setInterval(() => {

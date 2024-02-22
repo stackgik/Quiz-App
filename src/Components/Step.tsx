@@ -1,12 +1,9 @@
 import { useEffect, useRef } from 'react';
 import Circle from './Circle';
+import { useQuiz } from '../contexts/QuizContext';
 
-interface IStepProps {
-  currentQuestion: number;
-  circles: number;
-}
-
-function Step({ currentQuestion, circles }: IStepProps) {
+function Step() {
+  const { currentQuestion, circles } = useQuiz();
   const targetEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
