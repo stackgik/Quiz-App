@@ -1,4 +1,10 @@
-import { useContext, createContext, useReducer, useEffect } from 'react';
+import React, {
+  useContext,
+  createContext,
+  useReducer,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 // Literal type
 type SEC_PER_QUES = 60 | 1;
@@ -147,9 +153,16 @@ function reducer(state: AppState, action: Action): AppState {
   }
 }
 
-const QuizContext = createContext();
+// const QuizContext = createContext();
+const QuizContext = createContext<IQuizContextType | undefined>(undefined);
 
-function QuizProvider({ children }) {
+interface IQuizProviderProps {
+  children: ReactNode;
+}
+
+// Using the ReactNode type on the children dirrectly inside the prop is not the correct way to globalThis, it must be defined outside like this and then used appropriately
+// This function return type is a 'JSX Element' which is automatically inferred.
+function QuizProvider({ children }: IQuizProviderProps) {
   const [
     {
       quizObj,
@@ -221,7 +234,24 @@ function QuizProvider({ children }) {
   );
 }
 
-function useQuiz() {
+interface IQuizContextType {
+  remainingTime: number;
+  dispatch: React.Dispatch<Action>; //anotating React dispatch function without importing Dispatch from React
+  status: string;
+  quizObj: QuizData[];
+  answer: string | null;
+  index: number;
+  circles: number;
+  currentQuestion: number;
+  wrongAnswer: number;
+  rightAnswer: number;
+  answeredQuestion: number;
+  errorMsg: string | null;
+  quizHasEnded: boolean;
+}
+
+// A return type for the broadcasted values must be defined, and this must also the type on the created context.
+function useQuiz(): IQuizContextType {
   const context = useContext(QuizContext);
   if (context === undefined)
     throw new Error('AuthContext was used outside of AuthProvider');

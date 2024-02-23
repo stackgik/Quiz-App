@@ -1,7 +1,12 @@
 import { right, wrong } from '../ScoreIcon';
 import { useQuiz } from '../contexts/QuizContext';
 
-const QuizOption = ({ option }: string) => {
+interface IQuizOptionProps {
+  key: string;
+  option: string;
+}
+
+const QuizOption = ({ option }: IQuizOptionProps) => {
   const { dispatch, answer, quizObj, index } = useQuiz();
   const question = quizObj[index];
   const hasAnswered = answer !== null;

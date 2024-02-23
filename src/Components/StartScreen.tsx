@@ -1,11 +1,5 @@
 import Button from './Button';
 import { useQuiz } from '../contexts/QuizContext';
-// import { Dispatch } from 'react';
-// import { Action } from '../App';
-
-// interface IStartScreenProps {
-//   dispatch: Dispatch<Action>;
-// }
 
 const StartScreen = () => {
   const { dispatch } = useQuiz();

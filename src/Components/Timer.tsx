@@ -5,7 +5,7 @@ import { useQuiz } from '../contexts/QuizContext';
 function Timer() {
   const { remainingTime, dispatch } = useQuiz();
   const min = Math.floor(remainingTime / 60);
-  const secs = remainingTime % 60;
+  const secs = String(remainingTime % 60).padStart(2, '0');
 
   useEffect(() => {
     const id = setInterval(() => {

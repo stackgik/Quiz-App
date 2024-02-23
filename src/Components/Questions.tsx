@@ -4,10 +4,17 @@ import QuizOption from './QuizOption';
 import { useQuiz } from '../contexts/QuizContext';
 import { useEffect, useState } from 'react';
 
-import { shuffleArray } from '../hooks/shuffleArray';
+// A generic funtion
+function shuffleArray<T>(array: T[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 const Questions = () => {
-  const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
   const { quizObj, dispatch, quizHasEnded, index } = useQuiz();
   const question = quizObj[index];
 
@@ -27,7 +34,7 @@ const Questions = () => {
 
   useEffect(() => {
     if (question && question.options) {
-      setShuffledOptions(shuffleArray([...question.options]));
+      setShuffledOptions(shuffleArray<string>([...question.options]));
     }
   }, [index, question]);
 
